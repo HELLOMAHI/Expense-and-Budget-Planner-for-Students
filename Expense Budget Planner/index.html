@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SpendSmart – Student Budget Planner</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════ LOGIN ═══════════════════════════ -->
+<div class="auth-wrap visible" id="page-login">
+  <div class="auth-left">
+    <div class="a-brand">Spend<span>Smart</span></div>
+    <div class="a-tagline">Your personal student budget companion</div>
+    <div class="a-feat"><div class="a-feat-ico">📊</div><div class="a-feat-txt"><strong>Track Every Rupee</strong><span>Log income and expenses across all categories in seconds.</span></div></div>
+    <div class="a-feat"><div class="a-feat-ico">🎯</div><div class="a-feat-txt"><strong>Budget Goals</strong><span>Set category-wise budgets and get smart alerts before you overspend.</span></div></div>
+    <div class="a-feat"><div class="a-feat-ico">💡</div><div class="a-feat-txt"><strong>AI Insights</strong><span>Personalised tips to save more every month.</span></div></div>
+  </div>
+  <div class="auth-right">
+    <div class="a-title">Welcome back </div>
+    <div class="a-sub">Don't have an account? <a onclick="showAuth('page-signup')">Sign up free</a></div>
+    <div class="auth-error" id="login-err"></div>
+    <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" id="l-email" type="email" placeholder="you@college.edu.in"/></div>
+    <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="l-pass" type="password" placeholder="Enter your password"/></div>
+    <div class="auth-row">
+      <label class="auth-check"><input type="checkbox"/> Remember me</label>
+      <span class="forgot">Forgot Password?</span>
+    </div>
+    <button class="auth-btn" id="login-btn" onclick="doLogin()">Sign In</button>
+    <div class="auth-divider">or continue with</div>
+    <button class="auth-google">Sign in with Google</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SIGN UP ═══════════════════════════ -->
+<div class="auth-wrap" id="page-signup">
+  <div class="auth-left">
+    <div class="a-brand">Spend<span>Smart</span></div>
+    <div class="a-tagline">Join thousands of students saving smarter</div>
+    <div class="a-feat"><div class="a-feat-ico">🆓</div><div class="a-feat-txt"><strong>Completely Free</strong><span>No credit card. No hidden fees. Just smart budgeting.</span></div></div>
+    <div class="a-feat"><div class="a-feat-ico">🔒</div><div class="a-feat-txt"><strong>Private &amp; Secure</strong><span>Your financial data is encrypted and never shared.</span></div></div>
+    <div class="a-feat"><div class="a-feat-ico">📱</div><div class="a-feat-txt"><strong>Works Everywhere</strong><span>Access your budget from any device, anytime.</span></div></div>
+  </div>
+  <div class="auth-right">
+    <div class="a-title">Create your account</div>
+    <div class="a-sub">Already have an account? <a onclick="showAuth('page-login')">Sign in</a></div>
+    <div class="auth-error" id="signup-err"></div>
+    <div class="form-group">
+      <div class="name-row">
+        <div><label class="form-label">First Name</label><input class="form-input" id="su-fname" type="text" placeholder="Riya"/></div>
+        <div><label class="form-label">Last Name</label><input class="form-input" id="su-lname" type="text" placeholder="Sharma"/></div>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">College Email</label><input class="form-input" id="su-email" type="email" placeholder="you@college.edu.in"/></div>
+    <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="su-pass" type="password" placeholder="Create a password"/></div>
+    <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" id="su-pass2" type="password" placeholder="Repeat password"/></div>
+    <div class="form-group"><label class="form-label">Monthly Income (₹)</label><div class="pfx"><span class="sym">₹</span><input class="form-input" id="su-income" type="number" placeholder="e.g. 10000"/></div></div>
+    <label class="auth-check" style="margin-bottom:18px;"><input type="checkbox" id="su-terms"/> I agree to the <a href="#" style="color:var(--blue);">Terms &amp; Conditions</a></label>
+    <button class="auth-btn" id="signup-btn" onclick="doSignup()">Create Account</button>
+    <div class="auth-divider">or</div>
+    <button class="auth-google">Sign up with Google</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ APP ═══════════════════════════ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-brand">Spend<span>Smart</span></div>
+      <div class="sb-tagline">Student Budget Planner</div>
+    </div>
+    <div class="sb-period">Active Period <strong id="sb-period-text">March 2025 · Week 2</strong></div>
+    <nav class="sb-nav">
+      <div class="nav-section">Main Menu</div>
+      <button class="nav-item active" data-page="pg-dashboard"><span class="ico">⊞</span><span>Dashboard</span></button>
+      <button class="nav-item" data-page="pg-income"><span class="ico">💰</span><span>Income</span></button>
+      <button class="nav-item" data-page="pg-expenses"><span class="ico">🧾</span><span>Expenses</span></button>
+      <button class="nav-item" data-page="pg-budget"><span class="ico">📊</span><span>Budget</span></button>
+      <button class="nav-item" data-page="pg-savings"><span class="ico">🎯</span><span>Savings Goals</span></button>
+      <div class="nav-section">Insights</div>
+      <button class="nav-item" data-page="pg-reports"><span class="ico">📈</span><span>Reports</span></button>
+      <button class="nav-item" data-page="pg-calendar"><span class="ico">🗓</span><span>Calendar</span></button>
+      <button class="nav-item" data-page="pg-alerts"><span class="ico">🔔</span><span>Alerts</span><span class="nav-badge" id="alert-badge">2</span></button>
+    </nav>
+    <div class="sb-user" onclick="navigate('pg-profile')">
+      <div class="user-av" id="sb-av">R</div>
+      <div><div class="user-name" id="sb-name">User</div><div class="user-hint">Tap to view profile</div></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 id="topbar-title">Dashboard</h1>
+        <p id="topbar-sub">Loading…</p>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-outline btn-sm" onclick="openModal('mod-income')">+ Income</button>
+        <button class="btn btn-teal btn-sm" onclick="openModal('mod-expense')">+ Expense</button>
+        <button class="notif-btn" onclick="navigate('pg-alerts')">🔔<span class="notif-dot" id="notif-dot"></span></button>
+      </div>
+    </header>
+
+    <!-- ── DASHBOARD ── -->
+    <div class="page active" id="pg-dashboard">
+      <div class="alert-banner" id="alert-banner" style="display:none;">
+        <span id="alert-banner-text"></span>
+        <button class="x" onclick="this.parentElement.style.display='none'">✕</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card s-income"><div class="stat-label">Total Income</div><div class="stat-value" id="dash-income">₹0</div><div class="stat-sub" id="dash-income-sub"></div><div class="stat-ico">💵</div></div>
+        <div class="stat-card s-expense"><div class="stat-label">Total Expenses</div><div class="stat-value" id="dash-expense">₹0</div><div class="stat-sub" id="dash-expense-sub"></div><div class="stat-ico">🧾</div></div>
+        <div class="stat-card s-savings"><div class="stat-label">Savings</div><div class="stat-value" id="dash-savings">₹0</div><div class="stat-sub" id="dash-savings-sub"></div><div class="stat-ico">🏦</div></div>
+      </div>
+      <div class="content-grid">
+        <div>
+          <div class="card">
+            <div class="card-header"><div><div class="card-title">Spending Overview</div><div class="card-sub">Income vs Expenses – this month</div></div><span class="tag tb">Monthly</span></div>
+            <div class="card-body">
+              <div class="chart-area" id="chart-bars"></div>
+              <div class="chart-legend"><span><span class="ldot" style="background:#4ade80;"></span>Income</span><span><span class="ldot" style="background:#f87171;"></span>Expenses</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div><div class="card-title">Recent Transactions</div><div class="card-sub">Last 5 entries</div></div><button class="view-all" onclick="navigate('pg-expenses')">View All →</button></div>
+            <div class="card-body" id="recent-txns"><div class="empty-state"><div class="e-ico">📭</div><p>No transactions yet. Add your first one!</p></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="quick-add">
+            <h3>Quick Add</h3>
+            <p>Record a transaction in seconds</p>
+            <div class="qbtns">
+              <button class="qbtn inc" onclick="openModal('mod-income')">↑ Income</button>
+              <button class="qbtn exp" onclick="openModal('mod-expense')">↓ Expense</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div><div class="card-title">Budget Tracker</div><div class="card-sub" id="dash-budget-month"></div></div><button class="view-all" onclick="navigate('pg-budget')">Edit →</button></div>
+            <div class="card-body" id="dash-budget-bars"><div class="empty-state"><div class="e-ico">📋</div><p>No budgets set yet.</p></div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Savings Goals</div><button class="view-all" onclick="navigate('pg-savings')">View →</button></div>
+            <div class="card-body" id="dash-goals"><div class="empty-state"><div class="e-ico">🎯</div><p>No goals set yet.</p></div></div>
+          </div>
+          <div class="ai-card" id="ai-insight">
+            <div class="ai-label">✦ AI Insight</div>
+            <div class="ai-tip" id="ai-tip">Add some transactions to get insights!</div>
+            <p id="ai-body">Once you start tracking, we'll give you personalised saving tips.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INCOME ── -->
+    <div class="page" id="pg-income">
+      <div class="income-source-grid" id="income-sources"></div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">All Income Entries</div><button class="btn btn-teal btn-sm" onclick="openModal('mod-income')">+ Add Income</button></div>
+        <div class="card-body" id="income-list"><div class="empty-state"><div class="e-ico">💰</div><p>No income recorded yet.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ── EXPENSES ── -->
+    <div class="page" id="pg-expenses">
+      <div class="card">
+        <div class="card-header"><div class="card-title">All Expenses</div><button class="btn btn-teal btn-sm" onclick="openModal('mod-expense')">+ Add Expense</button></div>
+        <div class="card-body" id="expense-list"><div class="empty-state"><div class="e-ico">🧾</div><p>No expenses recorded yet.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ── BUDGET ── -->
+    <div class="page" id="pg-budget">
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-header"><div class="card-title">Set Category Budgets</div><button class="btn btn-teal btn-sm" onclick="saveBudgets()">Save Budgets</button></div>
+        <div class="card-body" id="budget-set-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Budget Usage This Month</div></div>
+        <div class="card-body" id="budget-usage-list"><div class="empty-state"><div class="e-ico">📊</div><p>Set budgets above to see usage.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ── SAVINGS ── -->
+    <div class="page" id="pg-savings">
+      <div class="goal-form card">
+        <div class="card-header"><div class="card-title">Add Savings Goal</div></div>
+        <div class="card-body">
+          <div class="form-group"><label class="form-label">Goal Name</label><input class="form-input" id="g-name" placeholder="e.g. New Laptop"/></div>
+          <div class="form-group"><label class="form-label">Target Amount (₹)</label><div class="pfx"><span class="sym">₹</span><input class="form-input" id="g-target" type="number" placeholder="30000"/></div></div>
+          <div class="form-group"><label class="form-label">Saved So Far (₹)</label><div class="pfx"><span class="sym">₹</span><input class="form-input" id="g-saved" type="number" placeholder="0"/></div></div>
+          <button class="btn btn-teal" onclick="addGoal()">Add Goal</button>
+        </div>
+      </div>
+      <div id="goals-list"></div>
+    </div>
+
+    <!-- ── REPORTS ── -->
+    <div class="page" id="pg-reports">
+      <div class="reports-grid">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Expense by Category</div></div>
+          <div class="card-body"><div id="pie-chart-wrap"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Monthly Summary</div></div>
+          <div class="card-body" id="monthly-summary"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">All Transactions</div></div>
+        <div class="card-body" id="all-txns-report"></div>
+      </div>
+    </div>
+
+    <!-- ── CALENDAR ── -->
+    <div class="page" id="pg-calendar">
+      <div class="card">
+        <div class="card-header">
+          <button class="btn btn-outline btn-sm" onclick="changeMonth(-1)">← Prev</button>
+          <div><div class="card-title" id="cal-title"></div></div>
+          <button class="btn btn-outline btn-sm" onclick="changeMonth(1)">Next →</button>
+        </div>
+        <div class="card-body">
+          <div class="cal-grid" id="cal-headers"></div>
+          <div class="cal-grid" id="cal-days" style="margin-top:6px;"></div>
+        </div>
+      </div>
+      <div class="card" id="cal-detail" style="display:none;">
+        <div class="card-header"><div class="card-title" id="cal-detail-title"></div></div>
+        <div class="card-body" id="cal-detail-body"></div>
+      </div>
+    </div>
+
+    <!-- ── ALERTS ── -->
+    <div class="page" id="pg-alerts">
+      <div id="alerts-list"></div>
+    </div>
+
+    <!-- ── PROFILE ── -->
+    <div class="page" id="pg-profile">
+      <div class="profile-card">
+        <div class="profile-av-lg" id="profile-av">R</div>
+        <div class="profile-name" id="profile-name">User</div>
+        <div class="profile-email" id="profile-email">user@email.com</div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Account Details</div></div>
+        <div class="card-body">
+          <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="p-name" type="text"/></div>
+          <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="p-email" type="email" readonly style="background:#f8fafc;"/></div>
+          <div class="form-group"><label class="form-label">Monthly Income (₹)</label><div class="pfx"><span class="sym">₹</span><input class="form-input" id="p-income" type="number"/></div></div>
+          <div style="display:flex;gap:10px;margin-top:6px;">
+            <button class="btn btn-teal" onclick="saveProfile()">Save Changes</button>
+            <button class="btn btn-outline" style="color:var(--red);border-color:var(--red);" onclick="doLogout()">Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ════ MODALS ════ -->
+
+<!-- ADD INCOME -->
+<div class="modal-overlay" id="mod-income">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Add Income</div><button class="modal-close" onclick="closeModal('mod-income')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Income Source</label>
+        <select class="form-select" id="i-source">
+          <option>Pocket Allowance</option><option>Part-Time Job</option><option>Freelancing</option><option>Tutoring / Teaching</option><option>Small Business</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Amount (₹)</label><div class="pfx"><span class="sym">₹</span><input class="form-input" id="i-amount" type="number" placeholder="0"/></div></div>
+      <div class="form-group"><label class="form-label">Date</label><input class="form-input" id="i-date" type="date"/></div>
+      <div class="form-group"><label class="form-label">Notes</label><input class="form-input" id="i-notes" type="text" placeholder="Optional note"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('mod-income')">Cancel</button>
+      <button class="btn btn-teal btn-sm" onclick="saveIncome()">Save Income</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EXPENSE -->
+<div class="modal-overlay" id="mod-expense">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Add Expense</div><button class="modal-close" onclick="closeModal('mod-expense')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Amount (₹)</label><div class="pfx"><span class="sym">₹</span><input class="form-input" id="e-amount" type="number" placeholder="0" style="font-size:18px;padding:12px 12px 12px 26px;"/></div></div>
+      <div class="form-group"><label class="form-label">Category</label>
+        <select class="form-select" id="e-cat">
+          <optgroup label="Academic"><option>Books &amp; Notebooks</option><option>Exam Fees</option><option>Printing</option><option>Online Courses</option></optgroup>
+          <optgroup label="Food &amp; Snacks"><option>Canteen Meals</option><option>Outside Food / Cafe</option><option>Snacks</option><option>Groceries</option></optgroup>
+          <optgroup label="Transportation"><option>Bus / Metro Pass</option><option>Fuel</option><option>Cab / Auto</option></optgroup>
+          <optgroup label="Accommodation"><option>Hostel Fees</option><option>PG / Rent</option><option>Electricity</option></optgroup>
+          <optgroup label="Digital &amp; Tech"><option>Mobile Recharge</option><option>Internet</option><option>OTT Subscriptions</option><option>Software</option></optgroup>
+          <optgroup label="Entertainment"><option>Movies / Outings</option><option>Parties</option><option>Gaming</option></optgroup>
+          <optgroup label="Health"><option>Medicines</option><option>Doctor Visit</option></optgroup>
+          <optgroup label="Personal"><option>Clothes</option><option>Grooming</option><option>Gym</option></optgroup>
+          <optgroup label="Others"><option>Gifts</option><option>Club Fees</option><option>Miscellaneous</option></optgroup>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Description</label><input class="form-input" id="e-desc" type="text" placeholder="e.g. Lunch at canteen"/></div>
+      <div class="form-group"><label class="form-label">Date</label><input class="form-input" id="e-date" type="date"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('mod-expense')">Cancel</button>
+      <button class="btn btn-navy btn-sm" onclick="saveExpense()">Save Expense</button>
+    </div>
+  </div>
+</div>
+
+<!-- BUDGET WARNING -->
+<div class="modal-overlay" id="mod-warn">
+  <div class="warn-modal">
+    <div class="warn-icon">⚠️</div>
+    <div class="warn-title">Budget Alert!</div>
+    <div class="warn-msg" id="warn-msg">You are about to exceed your budget.</div>
+    <div class="warn-nums" id="warn-nums"></div>
+    <div class="warn-btns">
+      <button class="btn btn-outline btn-sm" style="flex:1" onclick="closeModal('mod-warn')">Cancel</button>
+      <button class="btn btn-red btn-sm" style="flex:1" onclick="confirmExpense()">Add Anyway</button>
+    </div>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
